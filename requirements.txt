@@ -1,0 +1,28 @@
+# Streamlit (interface)
+streamlit
+
+# Manipulation des données
+pandas
+numpy
+
+# Scraping HTML statique
+requests
+beautifulsoup4
+lxml
+
+# Scraping avancé avec Selenium
+selenium
+webdriver-manager
+
+# Scraping de sites avec JavaScript
+playwright
+requests-html
+
+# Visualisation des données
+matplotlib
+plotly
+
+# Gestion du WebDriver
+chromedriver-autoinstaller==0.5.0
+
+
