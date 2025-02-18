@@ -1,4 +1,5 @@
-﻿aiobotocore==2.12.3
+pip>=25.0.1
+aiobotocore==2.12.3
 aiohttp==3.9.5
 aioitertools==0.7.1
 aiosignal==1.2.0
