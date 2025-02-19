@@ -17,7 +17,8 @@ import requests
 from requests import get
 
 # 🛠️ Installer Chromium et ChromeDriver (pour Streamlit Cloud)
-os.system("apt update && apt install -y chromium-chromedriver")
+#os.system("apt update && apt install -y chromium-chromedriver")
+os.system("apt update && apt install -y chromium-driver")
 
 # mise en format
 st.markdown(
