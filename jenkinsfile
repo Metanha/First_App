@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Metanha/First_App.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t mon-app .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                bat 'docker run -d -p 5000:5000 --name mon-app-container mon-app'
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                bat 'docker exec mon-app-container pytest tests/'
+            }
+        }
+
+        stage('Push Image to Docker Hub') {
+            steps {
+                withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
+                    bat 'docker tag mon-app mon-dockerhub-user/mon-app:latest'
+                    bat 'docker push mon-dockerhub-user/mon-app:latest'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext subject: "Build SUCCESS: ${env.JOB_NAME}",
+                     body: "Le build de ${env.JOB_NAME} a réussi.\nConsultez les logs ici: ${env.BUILD_URL}",
+                     recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        }
+        failure {
+            emailext subject: "Build FAILURE: ${env.JOB_NAME}",
+                     body: "Le build de ${env.JOB_NAME} a échoué.\nConsultez les logs ici: ${env.BUILD_URL}",
+                     recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        }
+    }
+}
